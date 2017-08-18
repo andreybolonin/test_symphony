@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\DateTime;
 
 
-class ArticleType
+class ArticleType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
