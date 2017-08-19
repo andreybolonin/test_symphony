@@ -4,11 +4,11 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Article;
 use AppBundle\Form\ArticleType;
-use Doctrine\ORM\Mapping\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+//use Doctrine\ORM\Mapping\Entity;
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\User\User;
+//use Symfony\Component\Security\Core\User\User;
 
 class DefaultController extends Controller
 {
@@ -19,11 +19,14 @@ class DefaultController extends Controller
     {
         $repository = $this->getDoctrine()->getRepository(Article::class);
         $articles = $repository->findAll();
+        //var_dump($articles);
+        //exit;
 
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [
             "articles" => $articles
         ]);
+
     }
 
     /**

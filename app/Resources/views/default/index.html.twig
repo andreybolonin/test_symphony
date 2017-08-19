@@ -2,9 +2,23 @@
 
 {% block body %}
 {% for article in articles %}
-    {{ article.name }} <a href="{{ path("delete", {"id": article.id}) }}">Delete</a> <a href="{{ path ("edit", {"id": article.id}) }}">Edit</a> <br>
-    {#{{ article.description }}<br>#}
+    <table style="border-color: #222222" border="1">
+        <td width="100">
+            {{ article.name }}
+        </td>
+        <td width="100">
+            {{ article.description }}
+        </td>
+        <td>
+            {{ article.createdAt|date('Y-m-d H:i:s') }}
+        </td>
+        <td width="100">
+            <a href="{{ path("delete", {"id": article.id}) }}">Delete</a>
+        </td>
+        <td width="100">
+            <a href="{{ path ("edit", {"id": article.id}) }}">Edit</a><br>
+        </td>
+    </table>
 {% endfor %}
 
 {% endblock %}
-
