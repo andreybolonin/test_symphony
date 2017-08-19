@@ -2,7 +2,7 @@
 
 {% block body %}
 {% for article in articles %}
-    {{ article.name }} <a href="{{ path("delete", {"id": article.id}) }}">Delete</a> <br>
+    {{ article.name }} <a href="{{ path("delete", {"id": article.id}) }}">Delete</a> <a href="{{ path ("edit", {"id": article.id}) }}">Edit</a> <br>
     {#{{ article.description }}<br>#}
 {% endfor %}
 

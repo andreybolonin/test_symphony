@@ -64,4 +64,28 @@ class DefaultController extends Controller
             "form" => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/edit/{id}", name="edit")
+     */
+    public function editAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->get('id');
+        $article = $em->getRepository(Article::class)->find($id);
+
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->handleRequest($request);
+
+        if ($form->isValid() && $form->isSubmitted()) {
+            $em->persist($article);
+            $em->flush();
+
+            return $this->redirectToRoute('homepage');
+        }
+
+        return $this->render('default/edit.html.twig', [
+            "form" => $form->createView()
+        ]);
+    }
 }
