@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <a href="{{ path("create") }}">Create new record</a>
 {% for article in articles %}
     <table style="border-color: #222222" border="1">
         <td width="100">
@@ -12,10 +13,10 @@
         <td>
             {{ article.createdAt|date('Y-m-d H:i:s') }}
         </td>
-        <td width="100">
+        <td align="center" width="50">
             <a href="{{ path("delete", {"id": article.id}) }}">Delete</a>
         </td>
-        <td width="100">
+        <td align="center" width="50">
             <a href="{{ path ("edit", {"id": article.id}) }}">Edit</a><br>
         </td>
     </table>

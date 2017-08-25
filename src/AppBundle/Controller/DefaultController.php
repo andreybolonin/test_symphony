@@ -77,6 +77,10 @@ class DefaultController extends Controller
         $id = $request->get('id');
         $article = $em->getRepository(Article::class)->find($id);
 
+        if ($article == null ) {
+            return $this->redirectToRoute('homepage');
+        }
+
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
