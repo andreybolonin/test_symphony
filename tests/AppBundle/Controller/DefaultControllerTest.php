@@ -36,10 +36,29 @@ class DefaultControllerTest extends WebTestCase
     public function testDelete()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/delete');
+        $crawler = $client->request('GET', '/');
 
         $url = $crawler->selectLink('Delete')->link();
         $client->click($url);
+
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+    }
+
+    public function testEdit()
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/');
+
+        $url = $crawler->selectLink('Edit')->link();
+        $client->click($url);
+
+        $crawler = $client->request('GET', '/edit');
+
+        $form = $crawler->selectButton('article[save]')->form();
+        $form['article[name]'] = 'AutoTestEdit';
+        $form['article[description]'] = 'AutoTestingEdit';
+
+        $crawler = $client->submit($form);
 
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
     }
