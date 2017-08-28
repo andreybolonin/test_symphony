@@ -15,7 +15,6 @@ class DefaultControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        //$this->assertContains('Welcome to Symfony', $crawler->filter('#container h1')->text());
 
     }
 
@@ -48,11 +47,10 @@ class DefaultControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/');
-        /*$url = $crawler->filter('a:contains("Edit")')
-            ->eq(0)
-            ->link();*/
+
         $url = $crawler->selectLink('Edit')->link();
         $crawler = $client->click($url);
+
         $form = $crawler->selectButton('article[save]')->form();
         $form['article[name]'] = 'AutoTestEdit';
         $form['article[description]'] = 'AutoTestEdit';
