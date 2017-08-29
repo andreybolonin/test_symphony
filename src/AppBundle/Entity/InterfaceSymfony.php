@@ -72,22 +72,6 @@ class InterfaceSymfony
     /**
      * @return mixed
      */
-    public function getIdNamespace()
-    {
-        return $this->idNamespace;
-    }
-
-    /**
-     * @param mixed $idNamespace
-     */
-    public function setIdNamespace($idNamespace)
-    {
-        $this->idNamespace = $idNamespace;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getNamespaceSymfony()
     {
         return $this->namespaceSymfony;
