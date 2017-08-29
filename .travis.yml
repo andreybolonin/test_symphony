@@ -24,3 +24,5 @@ dependencies:
 test:
  override:
     - phpunit --no-configuration
+
+dist: precise
