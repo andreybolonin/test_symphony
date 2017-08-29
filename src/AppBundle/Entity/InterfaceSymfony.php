@@ -25,9 +25,9 @@ class InterfaceSymfony
     private $url;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\ManyToOne(targetEntity="NamespaceSymfony", inversedBy="interfaces")
      */
-    private $idNamespace;
+    private $namespaceSymfony;
 
     /**
      * @return mixed
@@ -88,4 +88,16 @@ class InterfaceSymfony
     /**
      * @return mixed
      */
+    public function getNamespaceSymfony()
+    {
+        return $this->namespaceSymfony;
+    }
+
+    /**
+     * @param mixed $namespaceSymfony
+     */
+    public function setNamespaceSymfony($namespaceSymfony)
+    {
+        $this->namespaceSymfony = $namespaceSymfony;
+    }
 }

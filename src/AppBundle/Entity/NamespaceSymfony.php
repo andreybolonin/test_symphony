@@ -27,9 +27,14 @@ class NamespaceSymfony
     private $url;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ClassSymfony", mappedBy="namespaceSymfony")
+     * @ORM\OneToMany(targetEntity="ClassSymfony", mappedBy="namespaceSymfony")
      */
     private $classes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="InterfaceSymfony", mappedBy="namespaceSymfony")
+     */
+    private $interfaces;
 
     /**
      * NamespaceSymfony constructor.
@@ -37,6 +42,7 @@ class NamespaceSymfony
     public function __construct()
     {
         $this->classes = new ArrayCollection();
+        $this->interfaces = new ArrayCollection();
     }
 
     /**
