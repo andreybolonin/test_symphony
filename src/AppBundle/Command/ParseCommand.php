@@ -41,7 +41,7 @@ class ParseCommand extends ContainerAwareCommand
             $htmlNamespaceForClass = file_get_contents($namespaceUrl);
             $crawlerClass = new Crawler($htmlNamespaceForClass);
 
-            $classes = $crawlerClass->filter('div#page-content > div.container-fluid.underlined > div.row > div.col-md-6 > a');
+            $classes = $crawlerClass->filter('div.container-fluid.underlined > div.row > div.col-md-6 > a');
 
             foreach ($classes as $itemClass) {
                 $classUrl = 'http://api.symfony.com/3.2/'.str_replace("../", "", $itemClass->getAttribute("href"));
