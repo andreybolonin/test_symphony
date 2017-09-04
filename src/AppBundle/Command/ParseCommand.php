@@ -44,7 +44,7 @@ class ParseCommand extends ContainerAwareCommand
             $classes = $crawlerClass->filter('div#page-content > div.container-fluid.underlined > div.row > div.col-md-6 > a');
 
             foreach ($classes as $itemClass) {
-                $classUrl = $itemClass->getAttribute("href");
+                $classUrl = 'http://api.symfony.com/3.2/'.str_replace("../", "", $itemClass->getAttribute("href"));
                 $className = $itemClass->textContent;
                 $class = new ClassSymfony();
 
@@ -60,7 +60,7 @@ class ParseCommand extends ContainerAwareCommand
             $interfaces = $crawlerInterface->filter('div.container-fluid.underlined > div.row > div.col-md-6 > em > a');
 
             foreach ($interfaces as $itemInterface) {
-                $interfaceUrl = $itemInterface->getAttribute("href");
+                $interfaceUrl = 'http://api.symfony.com/3.2/'.str_replace("../", "", $itemInterface->getAttribute("href"));
                 $interfaceName = $itemInterface->textContent;
                 $interface = new InterfaceSymfony();
 
