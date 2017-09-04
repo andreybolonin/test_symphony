@@ -24,19 +24,51 @@ class ParseCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $html = file_get_contents('http://api.symfony.com/3.2/index.html');
+        $html = file_get_contents('http://api.symfony.com/3.2/');
         $crawler = new Crawler($html);
         $em = $this->getContainer()->get('doctrine')->getManager();
-
         $namepsaces = $crawler->filter('div.namespace-container > ul > li > a');
-        foreach ($namepsaces as $item) {
-            $url = 'http://api.symfony.com/3.2/'.$item->getAttribute("href");
-            $name = $item->textContent;
+
+        foreach ($namepsaces as $itemNamespace) {
+            $namespaceUrl = 'http://api.symfony.com/3.2/'.$itemNamespace->getAttribute("href");
+            $namespaceName = $itemNamespace->textContent;
 
             $namespace = new NamespaceSymfony();
-            $namespace->setUrl($url);
-            $namespace->setName($name);
+            $namespace->setUrl($namespaceUrl);
+            $namespace->setName($namespaceName);
             $em->persist($namespace);
+
+            $htmlNamespaceForClass = file_get_contents($namespaceUrl);
+            $crawlerClass = new Crawler($htmlNamespaceForClass);
+
+            $classes = $crawlerClass->filter('div#page-content > div.container-fluid.underlined > div.row > div.col-md-6 > a');
+
+            foreach ($classes as $itemClass) {
+                $classUrl = $itemClass->getAttribute("href");
+                $className = $itemClass->textContent;
+                $class = new ClassSymfony();
+
+                $class->setUrl($classUrl);
+                $class->setName($className);
+                $class->setNamespaceSymfony($namespace);
+                $em->persist($class);
+            }
+
+            $htmlNamespaceForInterface = file_get_contents($namespaceUrl);
+            $crawlerInterface = new Crawler($htmlNamespaceForInterface);
+
+            $interfaces = $crawlerInterface->filter('div.container-fluid.underlined > div.row > div.col-md-6 > em > a');
+
+            foreach ($interfaces as $itemInterface) {
+                $interfaceUrl = $itemInterface->getAttribute("href");
+                $interfaceName = $itemInterface->textContent;
+                $interface = new InterfaceSymfony();
+
+                $interface->setUrl($interfaceUrl);
+                $interface->setName($interfaceName);
+                $interface->setNamespaceSymfony($namespace);
+                $em->persist($interface);
+            }
         }
         $em->flush();
     }
