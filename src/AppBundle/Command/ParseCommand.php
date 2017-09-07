@@ -24,7 +24,15 @@ class ParseCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->getNamespaces('http://api.symfony.com/3.2/Symfony.html', null);
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        $namespace = new NamespaceSymfony();
+        $namespace->setUrl('http://api.symfony.com/3.2/Symfony.html');
+        $namespace->setName('Symfony');
+        $namespace->setParent(null);
+        $em->persist($namespace);
+        $em->flush();
+
+        $this->getNamespaces('http://api.symfony.com/3.2/Symfony.html', $namespace);
     }
 
     public function getNamespaces ($url, $parent)
