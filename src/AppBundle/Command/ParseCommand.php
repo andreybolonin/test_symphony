@@ -24,9 +24,10 @@ class ParseCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->getNamespaces('http://api.symfony.com/3.2/Symfony.html');
+        $this->getNamespaces('http://api.symfony.com/3.2/Symfony.html', null);
     }
-    public function getNamespaces ($url)
+
+    public function getNamespaces ($url, $parent)
     {
         $html = file_get_contents($url);
         $crawler = new Crawler($html);
@@ -42,8 +43,8 @@ class ParseCommand extends ContainerAwareCommand
             $namespace = new NamespaceSymfony();
             $namespace->setUrl($namespaceUrl);
             $namespace->setName($namespaceName);
+            $namespace->setParent($parent);
             $em->persist($namespace);
-            $this->getNamespaces($namespaceUrl);
 
             foreach ($classes as $itemClass) {
                 $classUrl = 'http://api.symfony.com/3.2/'.str_replace("../", "", $itemClass->getAttribute("href"));
@@ -57,7 +58,7 @@ class ParseCommand extends ContainerAwareCommand
             }
 
             foreach ($interfaces as $itemInterface) {
-                $interfaceUrl = 'http://api.symfony.com/3.2/' . str_replace("../", "", $itemInterface->getAttribute("href"));
+                $interfaceUrl = 'http://api.symfony.com/3.2/'.str_replace("../", "", $itemInterface->getAttribute("href"));
                 $interfaceName = $itemInterface->textContent;
                 $interface = new InterfaceSymfony();
                 $interface->setUrl($interfaceUrl);
@@ -66,6 +67,7 @@ class ParseCommand extends ContainerAwareCommand
                 $em->persist($interface);
             }
             $em->flush();
+            $this->getNamespaces($namespaceUrl, $namespace);
         }
     }
 }
